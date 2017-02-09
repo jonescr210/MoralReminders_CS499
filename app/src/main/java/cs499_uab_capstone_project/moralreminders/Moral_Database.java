@@ -1,10 +1,21 @@
 package cs499_uab_capstone_project.moralreminders;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import static android.R.attr.data;
 import static android.R.attr.version;
 
 /**
@@ -13,12 +24,16 @@ import static android.R.attr.version;
 
 
 
-public class Moral_Database extends SQLiteOpenHelper{
+public class Moral_Database extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Moral_database";
+    public static String DATABASE_FILE_PATH = "raw\\data.csv";
+    private static InputStream data_stream;
 
     public Moral_Database(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        Resources res = context.getResources();
+        data_stream = res.openRawResource(R.raw.data);
     }
 
     @Override
@@ -30,20 +45,43 @@ public class Moral_Database extends SQLiteOpenHelper{
         myDatabase.execSQL("INSERT INTO Happy VALUES('Always be Happy!', 'Me')");
         myDatabase.execSQL("INSERT INTO Sad VALUES('Never be Sad!', 'You')");
         myDatabase.execSQL("INSERT INTO Angry VALUES('Angry is no good!', 'Some guy')");
+
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new InputStreamReader(data_stream));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                String[] messages = line.split("::");
+                System.out.println(messages);
+                myDatabase.execSQL("INSERT INTO Happy VALUES('" + messages[0] + "', '" + messages[1] + "')");
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public String getMessage(String mood){
+    public String getMessage(String mood) {
         SQLiteDatabase myDatabase = this.getReadableDatabase();
         if (myDatabase != null) {
             String message = "";
-            Cursor result = myDatabase.rawQuery("Select * from " + mood, null);
+            Cursor result = myDatabase.rawQuery("Select * from " + mood + " ORDER BY RANDOM() LIMIT 1", null);
             result.moveToFirst();
             message = result.getString(0) + " - " + result.getString(1);
             return message;
-        }
-        else {
+        } else {
             return "Error! Database not found";
+        }
+    }
+
+    public void updateDatabase(String mood, String message, String author){
+        SQLiteDatabase myDatabase = this.getWritableDatabase();
+        if (myDatabase != null){
+            myDatabase.execSQL("INSERT OR REPLACE into " + mood + " VALUES('" + message +
+            "', '" + author + "')");
         }
     }
 
