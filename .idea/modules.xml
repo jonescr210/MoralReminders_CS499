@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MoralReminders_CS499.iml" filepath="$PROJECT_DIR$/MoralReminders_CS499.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MoralReminders.iml" filepath="$PROJECT_DIR$/MoralReminders.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
