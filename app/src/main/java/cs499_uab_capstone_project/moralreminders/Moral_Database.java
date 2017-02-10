@@ -33,7 +33,7 @@ public class Moral_Database extends SQLiteOpenHelper {
     public Moral_Database(Context context) {
         super(context, DATABASE_NAME, null, 1);
         Resources res = context.getResources();
-        data_stream = res.openRawResource(R.raw.data);
+        //data_stream = res.openRawResource(R.raw.data);
     }
 
     @Override

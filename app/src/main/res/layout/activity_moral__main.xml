@@ -8,7 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="cs499_uab_capstone_project.moralreminders.Moral_MainActivity">
+    tools:context="cs499_uab_capstone_project.moralreminders.Moral_MainActivity"
+    android:background="@drawable/calm_1"
+    tools:background="@drawable/calm_1">
 
     <Button
         android:text="@string/happy"
@@ -64,14 +66,6 @@
         android:id="@+id/update_button" />
 
     <TextView
-        android:text="N/A"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/update_button"
-        android:layout_alignStart="@+id/textView2"
-        android:id="@+id/version_number" />
-
-    <TextView
         android:text="@string/message_goes_here"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,5 +74,23 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:fontFamily="cursive"
         android:layout_above="@+id/version_number"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:backgroundTintMode="src_in"
+        android:background="?android:attr/toastFrameBackground"
+        tools:background="@android:drawable/alert_dark_frame"
+        android:textSize="32sp"
+        android:padding="20dp" />
+
+    <TextView
+        android:text="N/A"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/version_number"
+        android:textColor="@android:color/white"
+        android:background="@android:drawable/progress_horizontal"
+        android:layout_above="@+id/update_button"
+        android:layout_alignStart="@+id/textView2"
+        android:textAlignment="inherit"
+        android:padding="5dp" />
 </RelativeLayout>
