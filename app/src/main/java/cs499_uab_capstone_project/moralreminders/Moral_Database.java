@@ -46,21 +46,21 @@ public class Moral_Database extends SQLiteOpenHelper {
         myDatabase.execSQL("INSERT INTO Sad VALUES('Never be Sad!', 'You')");
         myDatabase.execSQL("INSERT INTO Angry VALUES('Angry is no good!', 'Some guy')");
 
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new InputStreamReader(data_stream));
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                String[] messages = line.split("::");
-                System.out.println(messages);
-                myDatabase.execSQL("INSERT INTO Happy VALUES('" + messages[0] + "', '" + messages[1] + "')");
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        BufferedReader reader;
+//        try {
+//            reader = new BufferedReader(new InputStreamReader(data_stream));
+//            String line = "";
+//            while ((line = reader.readLine()) != null) {
+//                String[] messages = line.split("::");
+//                System.out.println(messages);
+//                myDatabase.execSQL("INSERT INTO Happy VALUES('" + messages[0] + "', '" + messages[1] + "')");
+//            }
+//        } catch (FileNotFoundException e) {
+//            System.out.println("File not found!");
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 

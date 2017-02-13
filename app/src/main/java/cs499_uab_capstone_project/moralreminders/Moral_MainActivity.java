@@ -80,8 +80,7 @@ public class Moral_MainActivity extends AppCompatActivity {
                 version = br.readLine();
             }
         } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(), "Unable to determine version number - updating list!", Toast.LENGTH_LONG);
-            getWebMessages(db);
+            //Toast.makeText(getApplicationContext(), "Unable to determine version number - updating list!", Toast.LENGTH_LONG);
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -119,7 +118,7 @@ public class Moral_MainActivity extends AppCompatActivity {
             if (pd.isShowing()){
                 pd.dismiss();
             }
-            Toast.makeText(getApplicationContext(), "Done!", Toast.LENGTH_SHORT);
+            //Toast.makeText(getApplicationContext(), "Done!", Toast.LENGTH_SHORT);
         }
 
         @Override
@@ -151,6 +150,7 @@ public class Moral_MainActivity extends AppCompatActivity {
                     while ((line = reader.readLine()) != null) {
                         System.out.println(line);
                         String[] values = line.split("::");
+                        System.out.println(values[0] + " " + values[1] + " " + values[2]);
                         db.updateDatabase(values[2], values[0], values[1]);
                     }
 
