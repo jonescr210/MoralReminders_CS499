@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">MoralReminders</string>
+    <string name="app_name">Moral Reminders</string>
     <string name="message_goes_here">Message Goes Here!</string>
     <string name="angry">Angry</string>
     <string name="happy">Happy</string>
     <string name="how_are_you_currently_feeling">How are you currently feeling?</string>
     <string name="sad">Sad</string>
+    <string name="notification_title">How are you feeling?</string>
+    <string name="notification_message">Check out your new inspirational quote!</string>
 </resources>

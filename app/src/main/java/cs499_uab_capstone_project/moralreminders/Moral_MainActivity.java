@@ -11,11 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,11 +20,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Calendar;
+
+import cs499_uab_capstone_project.moralreminders.service.manager.InspiratorScheduleManager;
 
 public class Moral_MainActivity extends AppCompatActivity {
 
     private String version = "";
+    private InspiratorScheduleManager mScheduleManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +43,9 @@ public class Moral_MainActivity extends AppCompatActivity {
         final TextView messageText = (TextView) findViewById(R.id.moral_message);
         final TextView versionNumber = (TextView) findViewById(R.id.version_number);
         versionNumber.setText(getVersionText(moralDatabase));
+
+        mScheduleManager = new InspiratorScheduleManager(this);
+        mScheduleManager.bindService();
 
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,6 +68,11 @@ public class Moral_MainActivity extends AppCompatActivity {
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int time =  calendar.get(Calendar.MINUTE) + 1; //TODO - For testing only, delete this.
+//                int time =  calendar.get(Calendar.HOUR_OF_DAY) + 8; //TODO - uncomment this
+                calendar.set(Calendar.MINUTE, time);
+                mScheduleManager.setAlarmForNotification(calendar);
                 getWebMessages(moralDatabase);
             }
         });
@@ -162,5 +169,10 @@ public class Moral_MainActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mScheduleManager.unBindService();
     }
 }
