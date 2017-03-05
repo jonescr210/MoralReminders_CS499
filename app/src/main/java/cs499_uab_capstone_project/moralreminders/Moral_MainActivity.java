@@ -3,6 +3,7 @@ package cs499_uab_capstone_project.moralreminders;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,10 +48,13 @@ public class Moral_MainActivity extends AppCompatActivity {
         mScheduleManager = new InspiratorScheduleManager(this);
         mScheduleManager.bindService();
 
+        final Intent newIntent = new Intent(this, MessageActivity.class);
+
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String message = moralDatabase.getMessage("Happy");
                 messageText.setText(message);
+                startActivity(newIntent);
             }
         });
         sadButton.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +73,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
-                int time =  calendar.get(Calendar.MINUTE) + 1; //TODO - For testing only, delete this.
+                int time =  calendar.get(Calendar.SECOND) + 10; //TODO - For testing only, delete this.
 //                int time =  calendar.get(Calendar.HOUR_OF_DAY) + 8; //TODO - uncomment this
                 calendar.set(Calendar.MINUTE, time);
                 mScheduleManager.setAlarmForNotification(calendar);
