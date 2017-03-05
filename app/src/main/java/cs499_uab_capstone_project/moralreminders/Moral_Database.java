@@ -41,6 +41,9 @@ public class Moral_Database extends SQLiteOpenHelper {
         myDatabase.execSQL("CREATE TABLE IF NOT EXISTS Happy(Message TEXT, Author TEXT)");
         myDatabase.execSQL("CREATE TABLE IF NOT EXISTS Sad(Message TEXT, Author TEXT)");
         myDatabase.execSQL("CREATE TABLE IF NOT EXISTS Angry(Message TEXT, Author TEXT)");
+        myDatabase.execSQL("CREATE TABLE IF NOT EXISTS Faith(Message TEXT, Author TEXT)");
+        myDatabase.execSQL("CREATE TABLE IF NOT EXISTS Lonely(Message TEXT, Author TEXT)");
+        myDatabase.execSQL("CREATE TABLE IF NOT EXISTS Love(Message TEXT, Author TEXT)");
 
         myDatabase.execSQL("INSERT INTO Happy VALUES('Always be Happy!', 'Me')");
         myDatabase.execSQL("INSERT INTO Sad VALUES('Never be Sad!', 'You')");
