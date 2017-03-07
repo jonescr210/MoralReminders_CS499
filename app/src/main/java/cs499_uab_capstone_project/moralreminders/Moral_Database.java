@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 
 import static android.R.attr.data;
 import static android.R.attr.version;
@@ -24,7 +25,7 @@ import static android.R.attr.version;
 
 
 
-public class Moral_Database extends SQLiteOpenHelper {
+public class Moral_Database extends SQLiteOpenHelper implements Serializable {
 
     public static final String DATABASE_NAME = "Moral_database";
     public static String DATABASE_FILE_PATH = "raw\\data.csv";
@@ -67,17 +68,21 @@ public class Moral_Database extends SQLiteOpenHelper {
     }
 
 
-    public String getMessage(String mood) {
+    public String[] getMessage(String mood) {
         SQLiteDatabase myDatabase = this.getReadableDatabase();
+        String[] message = new String[2];
+        Cursor result = null;
+
         if (myDatabase != null) {
-            String message = "";
-            Cursor result = myDatabase.rawQuery("Select * from " + mood + " ORDER BY RANDOM() LIMIT 1", null);
+            result = myDatabase.rawQuery("Select * from " + mood + " ORDER BY RANDOM() LIMIT 1", null);
             result.moveToFirst();
-            message = result.getString(0) + " - " + result.getString(1);
-            return message;
+            message[0] = result.getString(0);
+            message[1] = result.getString(1);
         } else {
-            return "Error! Database not found";
+            message[0] = "Error!";
+            message[1] = "Something broke!";
         }
+        return message;
     }
 
     public void updateDatabase(String mood, String message, String author){

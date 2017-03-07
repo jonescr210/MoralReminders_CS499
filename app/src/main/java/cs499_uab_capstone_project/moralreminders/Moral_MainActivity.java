@@ -39,9 +39,11 @@ public class Moral_MainActivity extends AppCompatActivity {
         final Button happyButton = (Button) findViewById(R.id.happyButton);
         final Button sadButton = (Button) findViewById(R.id.sadButton);
         final Button angryButton = (Button) findViewById(R.id.angryButton);
+        final Button loveButton = (Button) findViewById(R.id.loveButton);
+        final Button lonelyButton = (Button) findViewById(R.id.lonelyButton);
+        final Button faithButton = (Button) findViewById(R.id.faithButton);
         final Button updateButton = (Button) findViewById(R.id.update_button);
 
-        final TextView messageText = (TextView) findViewById(R.id.moral_message);
         final TextView versionNumber = (TextView) findViewById(R.id.version_number);
         versionNumber.setText(getVersionText(moralDatabase));
 
@@ -52,22 +54,53 @@ public class Moral_MainActivity extends AppCompatActivity {
 
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message = moralDatabase.getMessage("Happy");
-                messageText.setText(message);
+                String[] message = moralDatabase.getMessage("Happy");
+                Bundle b = new Bundle();
+                b.putSerializable("message", message);
+                newIntent.putExtras(b);
                 startActivity(newIntent);
             }
         });
         sadButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message = moralDatabase.getMessage("Sad");
-                messageText.setText(message);
+                String message[] = moralDatabase.getMessage("Sad");
+                Bundle b = new Bundle();
+                b.putSerializable("message", message);
+                newIntent.putExtras(b);
+                startActivity(newIntent);
             }
         });
         angryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message = moralDatabase.getMessage("Angry");
-                messageText.setText(message);
-            }
+                String message[] = moralDatabase.getMessage("Angry");
+                Bundle b = new Bundle();
+                b.putSerializable("message", message);
+                newIntent.putExtras(b);
+                startActivity(newIntent);            }
+        });
+        loveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String message[] = moralDatabase.getMessage("Love");
+                Bundle b = new Bundle();
+                b.putSerializable("message", message);
+                newIntent.putExtras(b);
+                startActivity(newIntent);            }
+        });
+        lonelyButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String message[] = moralDatabase.getMessage("Lonely");
+                Bundle b = new Bundle();
+                b.putSerializable("message", message);
+                newIntent.putExtras(b);
+                startActivity(newIntent);            }
+        });
+        faithButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String message[] = moralDatabase.getMessage("Faith");
+                Bundle b = new Bundle();
+                b.putSerializable("message", message);
+                newIntent.putExtras(b);
+                startActivity(newIntent);            }
         });
 
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +134,7 @@ public class Moral_MainActivity extends AppCompatActivity {
 
     public void getWebMessages(Moral_Database db){
         Message_Parser webParser = new Message_Parser(db);
-        webParser.execute("https://www.dropbox.com/s/l5gevxyctba08xv/data.txt?raw=1");
+        webParser.execute("https://www.dropbox.com/s/g7e2tm73zhmb9lh/data.txt?raw=1");
     }
 
     private class Message_Parser extends AsyncTask<String, String, String> {
@@ -161,6 +194,12 @@ public class Moral_MainActivity extends AppCompatActivity {
                     while ((line = reader.readLine()) != null) {
                         System.out.println(line);
                         String[] values = line.split("::");
+                        for (int i = 0; i < values.length; i++){
+                            if (values[i].contains("'")){
+                                System.out.println("ADSFASDFASDFA");
+                                values[i] = values[i].replace("'", "''");
+                            }
+                        }
                         System.out.println(values[0] + " " + values[1] + " " + values[2]);
                         db.updateDatabase(values[2], values[0], values[1]);
                     }
