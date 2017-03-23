@@ -95,4 +95,14 @@
         android:layout_alignStart="@+id/lonelyButton"
         android:layout_marginBottom="57dp" />
 
+    <TextView
+        android:text="Be sure to update to get latest quotes, and to set your quote notifications!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView"
+        android:textColor="@color/white"
+        android:textAlignment="center" />
+
 </RelativeLayout>
