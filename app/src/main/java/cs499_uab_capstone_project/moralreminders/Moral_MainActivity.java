@@ -1,16 +1,18 @@
 package cs499_uab_capstone_project.moralreminders;
 
-import android.app.Dialog;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,7 +23,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Calendar;
 
 
 public class Moral_MainActivity extends AppCompatActivity {
@@ -46,6 +47,16 @@ public class Moral_MainActivity extends AppCompatActivity {
         versionNumber.setText(getVersionText(moralDatabase));
 
         final Intent newIntent = new Intent(this, MessageActivity.class);
+
+        final Intent notificationIntent = new Intent(this, Moral_NotificationService.class);
+        final PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, 0);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
 
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -95,12 +106,18 @@ public class Moral_MainActivity extends AppCompatActivity {
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
-                startActivity(newIntent);            }
+                startActivity(newIntent);
+            }
         });
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getWebMessages(moralDatabase);
+                Calendar testTime = Calendar.getInstance();
+                alarmManager.cancel(pendingIntent);
+                //alarmManager.set(AlarmManager.RTC_WAKEUP, testTime.getTimeInMillis() + 10000, pendingIntent); //Testing interval
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, AlarmManager.INTERVAL_HOUR * 4, AlarmManager.INTERVAL_HOUR, pendingIntent);
+                System.out.println("Test time is: " + testTime.getTime());
             }
         });
     }
