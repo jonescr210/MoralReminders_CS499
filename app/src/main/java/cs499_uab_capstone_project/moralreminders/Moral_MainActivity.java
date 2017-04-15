@@ -43,19 +43,18 @@ public class Moral_MainActivity extends AppCompatActivity {
         final Button lonelyButton = (Button) findViewById(R.id.lonelyButton);
         final Button faithButton = (Button) findViewById(R.id.faithButton);
         final Button updateButton = (Button) findViewById(R.id.update_button);
-        final Button savedButton = (Button) findViewById(R.id.savedQuotesButton);
 
         final TextView versionNumber = (TextView) findViewById(R.id.version_number);
         versionNumber.setText(getVersionText(moralDatabase));
 
-        //mScheduleManager = new InspiratorScheduleManager(this);
-        //mScheduleManager.bindService();
+        mScheduleManager = new InspiratorScheduleManager(this);
+        mScheduleManager.bindService();
 
         final Intent newIntent = new Intent(this, MessageActivity.class);
 
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String[] message = moralDatabase.getMessage("Happy", false);
+                String[] message = moralDatabase.getMessage("Happy");
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -64,7 +63,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         sadButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Sad", false);
+                String message[] = moralDatabase.getMessage("Sad");
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -73,7 +72,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         angryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Angry", false);
+                String message[] = moralDatabase.getMessage("Angry");
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -81,7 +80,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         loveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Love", false);
+                String message[] = moralDatabase.getMessage("Love");
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -89,7 +88,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         lonelyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Lonely", false);
+                String message[] = moralDatabase.getMessage("Lonely");
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -97,7 +96,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         faithButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Faith", false);
+                String message[] = moralDatabase.getMessage("Faith");
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -112,13 +111,6 @@ public class Moral_MainActivity extends AppCompatActivity {
                 calendar.set(Calendar.MINUTE, time);
                 mScheduleManager.setAlarmForNotification(calendar);
                 getWebMessages(moralDatabase);
-            }
-        });
-        savedButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String[] message = moralDatabase.getMessage("SAVED", true);
-                for (String x : message)
-                    System.out.println(x);
             }
         });
     }
