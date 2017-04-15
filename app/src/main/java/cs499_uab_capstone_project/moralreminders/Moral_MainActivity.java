@@ -39,11 +39,13 @@ public class Moral_MainActivity extends AppCompatActivity {
         final Button lonelyButton = (Button) findViewById(R.id.lonelyButton);
         final Button faithButton = (Button) findViewById(R.id.faithButton);
         final Button updateButton = (Button) findViewById(R.id.update_button);
+        final Button savedButton = (Button) findViewById(R.id.saved_button);
 
         final TextView versionNumber = (TextView) findViewById(R.id.version_number);
         versionNumber.setText(getVersionText(moralDatabase));
 
         final Intent newIntent = new Intent(this, MessageActivity.class);
+        final Intent savedIntent = new Intent(this, SavedListActivity.class);
 
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -94,6 +96,14 @@ public class Moral_MainActivity extends AppCompatActivity {
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
                 startActivity(newIntent);            }
+        });
+        savedButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String message[] = moralDatabase.getMessage("SAVED", true);
+                Bundle b = new Bundle();
+                b.putSerializable("message", message);
+                savedIntent.putExtras(b);
+                startActivity(savedIntent);            }
         });
 
         updateButton.setOnClickListener(new View.OnClickListener() {
