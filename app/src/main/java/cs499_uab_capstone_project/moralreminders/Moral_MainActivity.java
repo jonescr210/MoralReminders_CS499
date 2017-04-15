@@ -22,13 +22,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
-
-import cs499_uab_capstone_project.moralreminders.service.manager.InspiratorScheduleManager;
-
 public class Moral_MainActivity extends AppCompatActivity {
 
     private String version = "";
-    private InspiratorScheduleManager mScheduleManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,14 +43,11 @@ public class Moral_MainActivity extends AppCompatActivity {
         final TextView versionNumber = (TextView) findViewById(R.id.version_number);
         versionNumber.setText(getVersionText(moralDatabase));
 
-        mScheduleManager = new InspiratorScheduleManager(this);
-        mScheduleManager.bindService();
-
         final Intent newIntent = new Intent(this, MessageActivity.class);
 
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String[] message = moralDatabase.getMessage("Happy");
+                String[] message = moralDatabase.getMessage("Happy", false);
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -63,7 +56,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         sadButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Sad");
+                String message[] = moralDatabase.getMessage("Sad", false);
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -72,7 +65,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         angryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Angry");
+                String message[] = moralDatabase.getMessage("Angry", false);
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -80,7 +73,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         loveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Love");
+                String message[] = moralDatabase.getMessage("Love", false);
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -88,7 +81,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         lonelyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Lonely");
+                String message[] = moralDatabase.getMessage("Lonely", false);
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -96,7 +89,7 @@ public class Moral_MainActivity extends AppCompatActivity {
         });
         faithButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String message[] = moralDatabase.getMessage("Faith");
+                String message[] = moralDatabase.getMessage("Faith", false);
                 Bundle b = new Bundle();
                 b.putSerializable("message", message);
                 newIntent.putExtras(b);
@@ -109,7 +102,6 @@ public class Moral_MainActivity extends AppCompatActivity {
                 int time =  calendar.get(Calendar.SECOND) + 10; //TODO - For testing only, delete this.
 //                int time =  calendar.get(Calendar.HOUR_OF_DAY) + 8; //TODO - uncomment this
                 calendar.set(Calendar.MINUTE, time);
-                mScheduleManager.setAlarmForNotification(calendar);
                 getWebMessages(moralDatabase);
             }
         });
@@ -216,6 +208,5 @@ public class Moral_MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        mScheduleManager.unBindService();
     }
 }
