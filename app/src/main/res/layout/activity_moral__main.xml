@@ -95,4 +95,12 @@
         android:layout_alignStart="@+id/lonelyButton"
         android:layout_marginBottom="57dp" />
 
+    <Button
+        android:text="Saved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/update_button"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/savedQuotesButton" />
+
 </RelativeLayout>

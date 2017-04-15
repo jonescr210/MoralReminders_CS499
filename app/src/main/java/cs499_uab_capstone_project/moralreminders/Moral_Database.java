@@ -46,6 +46,8 @@ public class Moral_Database extends SQLiteOpenHelper implements Serializable {
         myDatabase.execSQL("CREATE TABLE IF NOT EXISTS Lonely(Message TEXT, Author TEXT)");
         myDatabase.execSQL("CREATE TABLE IF NOT EXISTS Love(Message TEXT, Author TEXT)");
 
+        myDatabase.execSQL("CREATE TABLE IF NOT EXISTS SAVED(Message TEXT, Author TEXT)");
+
         myDatabase.execSQL("INSERT INTO Happy VALUES('Always be Happy!', 'Me')");
         myDatabase.execSQL("INSERT INTO Sad VALUES('Never be Sad!', 'You')");
         myDatabase.execSQL("INSERT INTO Angry VALUES('Angry is no good!', 'Some guy')");
@@ -68,16 +70,31 @@ public class Moral_Database extends SQLiteOpenHelper implements Serializable {
     }
 
 
-    public String[] getMessage(String mood) {
+    public String[] getMessage(String mood, Boolean all) {
         SQLiteDatabase myDatabase = this.getReadableDatabase();
         String[] message = new String[2];
         Cursor result = null;
 
         if (myDatabase != null) {
-            result = myDatabase.rawQuery("Select * from " + mood + " ORDER BY RANDOM() LIMIT 1", null);
-            result.moveToFirst();
-            message[0] = result.getString(0);
-            message[1] = result.getString(1);
+            if (all == true) {
+                result = myDatabase.rawQuery("Select DISTINCT * from " + mood, null);
+                result.moveToFirst();
+                int length = result.getCount() * 2;
+                message = new String[length];
+                for (int i = 0; i < length; i++){
+                    message[i] = result.getString(0);
+                    i = i + 1;
+                    message[i] = result.getString(1);
+                    result.moveToNext();
+                }
+            }
+            else {
+                result = myDatabase.rawQuery("Select * from " + mood + " ORDER BY RANDOM() LIMIT 1", null);
+                result.moveToFirst();
+                message[0] = result.getString(0);
+                message[1] = result.getString(1);
+            }
+
         } else {
             message[0] = "Error!";
             message[1] = "Something broke!";
@@ -91,6 +108,15 @@ public class Moral_Database extends SQLiteOpenHelper implements Serializable {
             myDatabase.execSQL("INSERT OR REPLACE into " + mood + " VALUES('" + message +
             "', '" + author + "')");
         }
+    }
+
+    public boolean saveQuote(String message, String author){
+        SQLiteDatabase myDatabase = this.getWritableDatabase();
+        if (myDatabase != null){
+            myDatabase.execSQL("INSERT OR REPLACE into SAVED VALUES('" + message + "', '" + author + "')");
+            return true;
+        }
+        else return false;
     }
 
     @Override
