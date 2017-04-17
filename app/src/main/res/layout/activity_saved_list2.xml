@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:scrollbars="vertical"
     android:fadeScrollbars="false"
-    tools:context="cs499_uab_capstone_project.moralreminders.SavedListActivity">
+    tools:context="cs499_uab_capstone_project.moralreminders.SavedListActivity"
+    android:background="@color/black">
 
 
     <ScrollView
@@ -25,7 +26,8 @@
             android:id="@+id/saved_Text"
             android:textSize="16sp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white" />
 
     </ScrollView>
 </RelativeLayout>
